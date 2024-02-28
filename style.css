@@ -1,0 +1,10 @@
+textarea:not([rows]) {
+  min-height: 7em;
+  max-height: 40vh;
+  box-sizing: content-box;
+  resize: none;
+}
+textarea#log {
+  font-family: monospace;
+  display: none;
+}
