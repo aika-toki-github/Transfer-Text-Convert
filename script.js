@@ -124,9 +124,17 @@ function $a70f(s) {
 				const [depTime, arrTime] = info.split("～");
 				currentTrip.dep.time = depTime;
 				currentTrip.arr.time = arrTime;
-			} else if (info.includes("→")) {
-				const [depPlatform, arrPlatform] = info.split("発 → ");
-				currentTrip.dep.platform = depPlatform;
+			} else if (info.includes("番線") || info.includes("のりば")) {
+				let depPlatform = "",
+					arrPlatform = "";
+				if (info.includes("→")) {
+					[depPlatform, arrPlatform] = info.split("→").map((e) => e.trim());
+				} else if (info.includes("発")) {
+					depPlatform = info.replace("発", "");
+				} else {
+					arrPlatform = info.replace("着", "");
+				}
+				currentTrip.dep.platform = depPlatform.replace("発", "");
 				currentTrip.arr.platform = arrPlatform.replace("着", "");
 				currentTrip.arr.station = currentTrip.dep.station;
 			} else {
@@ -156,15 +164,16 @@ function $a70f(s) {
 				arrPrefix,
 				depSuffix = "",
 				arrSuffix = "";
+			printf([trip, index], 166);
 			if (index === 0) {
 				depPrefix = "▼";
 				arrPrefix = "□";
 				depSuffix = "【" + trip.dep.station + "】";
-				if (index === a.length - 1) {
+				if (index === result.length - 1) {
 					arrPrefix = "■";
 				}
 				arrSuffix = "【" + trip.arr.station + "】";
-			} else if (index === a.length - 1) {
+			} else if (index === result.length - 1) {
 				depPrefix = "▽";
 				if (index === 0) {
 					depPrefix = "▼";
